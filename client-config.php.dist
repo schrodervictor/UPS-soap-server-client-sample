@@ -1,0 +1,5 @@
+<?php
+define('UPS_MOCK_ENDPOINT', 'http://localhost/Server/server.php');
+define('UPS_MOCK_USERNAME', 'Your Username');
+define('UPS_MOCK_PASSWORD', 'YourPassword');
+define('UPS_MOCK_ACCESS_LICENSE_NUMBER', '999');
