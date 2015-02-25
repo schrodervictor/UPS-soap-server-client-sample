@@ -1,0 +1,16 @@
+<v1:ShipAcceptRequest xmlns:v1="http://www.ups.com/XMLSchema/XOLTWS/Ship/v1.0" xmlns:v11="http://www.ups.com/XMLSchema/XOLTWS/Common/v1.0">
+  <v11:Request>
+    <!--Zero or more repetitions:-->
+    <v11:RequestOption>string</v11:RequestOption>
+    <!--Optional:-->
+    <v11:SubVersion>string</v11:SubVersion>
+    <!--Optional:-->
+    <v11:TransactionReference>
+      <!--Optional:-->
+      <v11:CustomerContext>string</v11:CustomerContext>
+      <!--Optional:-->
+      <v11:TransactionIdentifier>string</v11:TransactionIdentifier>
+    </v11:TransactionReference>
+  </v11:Request>
+  <v1:ShipmentDigest>string</v1:ShipmentDigest>
+</v1:ShipAcceptRequest>
