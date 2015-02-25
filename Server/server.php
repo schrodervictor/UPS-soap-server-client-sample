@@ -4,6 +4,25 @@ class UpsShipApiMock {
     public function hello() {
         return "Hello";
     }
+    public function ProcessShipment() {
+        return array(
+            'ShipmentResults' => array(
+                'BillingWeight' => array(
+                    'UnitOfMeasurement' => array(
+                        'Code' => '42',
+                        'Description' => 'something',
+                    ),
+                    'Weight' => 'something',
+                ),
+            ),
+            'Response' => array(
+                'ResponseStatus' => array(
+                    'Code' => '42',
+                    'Description' => 'Test',
+                ),
+            ),
+        );
+    }
 }
 
 // Create a new SOAP server
