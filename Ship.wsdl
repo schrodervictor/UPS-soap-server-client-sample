@@ -66,7 +66,7 @@
 	<wsdl:binding name="ShipBinding" type="tns:ShipPortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="ProcessShipment">
-			<soap:operation soapAction="ProcessShipment" style="document"/>
+			<soap:operation soapAction="http://onlinetools.ups.com/webservices/ShipBinding/v1.0" style="document"/>
 			<wsdl:input name="ShipmentRequest">
 				<soap:body parts="Body" use="literal"/>
 				<soap:header message="tns:ShipmentRequestMessage" part="UPSSecurity" use="literal">
