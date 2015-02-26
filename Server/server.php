@@ -4,6 +4,25 @@ class UpsShipApiMock {
     public function hello() {
         return "Hello";
     }
+
+    public function UPSSecurity($header) {
+
+        // Authenticate against fake credentials
+        if(
+            'test' !== $header->UsernameToken->Username
+            ||
+            'test123' !== $header->UsernameToken->Password
+            ||
+            '999' !== $header->ServiceAccessToken->AccessLicenseNumber
+          )
+        {
+
+            return new SoapFault('Server', 'Authentication problems');
+
+        }
+
+    }
+
     public function ProcessShipment() {
 
         $baseResponse = array();
