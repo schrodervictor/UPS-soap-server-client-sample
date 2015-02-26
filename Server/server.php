@@ -5,23 +5,16 @@ class UpsShipApiMock {
         return "Hello";
     }
     public function ProcessShipment() {
-        return array(
-            'ShipmentResults' => array(
-                'BillingWeight' => array(
-                    'UnitOfMeasurement' => array(
-                        'Code' => '42',
-                        'Description' => 'something',
-                    ),
-                    'Weight' => 'something',
-                ),
-            ),
-            'Response' => array(
-                'ResponseStatus' => array(
-                    'Code' => '42',
-                    'Description' => 'Test',
-                ),
-            ),
-        );
+
+        $baseResponse = new stdClass();
+
+        // Mandatory fields for a Response
+        $baseResponse->ShipmentResults->BillingWeight->UnitOfMeasurement->Code = 42;
+        $baseResponse->ShipmentResults->BillingWeight->Weight = 'something';
+        $baseResponse->Response->ResponseStatus->Code = 42;
+        $baseResponse->Response->ResponseStatus->Description = 'Test';
+
+        return $baseResponse;
     }
 }
 
