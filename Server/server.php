@@ -1,6 +1,10 @@
 <?php
 // Basic class to mock the UPS API for shipments
 class UpsShipApiMock {
+
+    protected $_errors;
+    protected $_response;
+
     public function hello() {
         return "Hello";
     }
@@ -16,14 +20,21 @@ class UpsShipApiMock {
             '999' !== $header->ServiceAccessToken->AccessLicenseNumber
           )
         {
+            // Here I'm only simulating an error for the License Code
+            $error = array();
+            $error['ErrorDetail']['Severity'] = 'Authentication';
+            $error['ErrorDetail']['PrimaryErrorCode']['Code'] = '250003';
+            $error['ErrorDetail']['PrimaryErrorCode']['Description'] = 'Invalid Access License number';
 
-            return new SoapFault('Server', 'Authentication problems');
+            $this->_errors = $error;
 
         }
 
     }
 
     public function ProcessShipment() {
+
+        if($this->_errors) return $this->deliver();
 
         $baseResponse = array();
 
@@ -33,7 +44,26 @@ class UpsShipApiMock {
         $baseResponse['Response']['ResponseStatus']['Code'] = 42;
         $baseResponse['Response']['ResponseStatus']['Description'] = 'Test';
 
-        return $baseResponse;
+        $this->_response = $baseResponse;
+
+        return $this->deliver();
+    }
+
+    protected function deliver() {
+
+        if ($this->_errors) {
+
+            return new SoapFault(
+                'Client',
+                'An exception has been raised as a result of client data.',
+                null,
+                $this->_errors,
+                'ShipmentError'
+            );
+        } else {
+            return $this->_response;
+        }
+
     }
 }
 
