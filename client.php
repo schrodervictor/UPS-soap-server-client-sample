@@ -16,108 +16,104 @@ $mode = array
 $client = new SoapClient('specification/Ship.wsdl', $mode);
 
 
-//create soap header
-$usernameToken['Username'] = UPS_MOCK_USERNAME;
-$usernameToken['Password'] = UPS_MOCK_PASSWORD;
-$serviceAccessLicense['AccessLicenseNumber'] = UPS_MOCK_ACCESS_LICENSE_NUMBER;
-$upss['UsernameToken'] = $usernameToken;
-$upss['ServiceAccessToken'] = $serviceAccessLicense;
+// Create UPS SOAP security header
+$UPSSecurity = new stdClass();
+$UPSSecurity->UsernameToken = new stdClass();
+$UPSSecurity->UsernameToken->Username = UPS_MOCK_USERNAME;
+$UPSSecurity->UsernameToken->Password = UPS_MOCK_PASSWORD;
+$UPSSecurity->ServiceAccessToken->AccessLicenseNumber = UPS_MOCK_ACCESS_LICENSE_NUMBER;
 
-$header = new SoapHeader('http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0', 'UPSSecurity', $upss);
+$header = new SoapHeader('http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0', 'UPSSecurity', $UPSSecurity);
 
 $client->__setSoapHeaders($header);
 
-//create soap request
-$requestoption['RequestOption'] = 'nonvalidate';
-$request['Request'] = $requestoption;
+// Create a simple UPS SOAP request
+$request = new stdClass();
 
-$shipment['Description'] = 'Ship WS test';
-$shipper['Name'] = 'ShipperName';
-$shipper['AttentionName'] = 'ShipperZs Attn Name';
-$shipper['TaxIdentificationNumber'] = '123456';
-$shipper['ShipperNumber'] = '';
-$address['AddressLine'] = '2311 York Rd';
-$address['City'] = 'Timonium';
-$address['StateProvinceCode'] = 'MD';
-$address['PostalCode'] = '21093';
-$address['CountryCode'] = 'US';
-$shipper['Address'] = $address;
-$phone['Number'] = '1115554758';
-$phone['Extension'] = '1';
-$shipper['Phone'] = $phone;
-$shipment['Shipper'] = $shipper;
+// Request option
+$request->Request->RequestOption = 'nonvalidate';
 
-$shipto['Name'] = 'Happy Dog Pet Supply';
-$shipto['AttentionName'] = '1160b_74';
-$addressTo['AddressLine'] = '123 Main St';
-$addressTo['City'] = 'Roswell';
-$addressTo['StateProvinceCode'] = 'GA';
-$addressTo['PostalCode'] = '30076';
-$addressTo['CountryCode'] = 'US';
-$phone2['Number'] = '9225377171';
-$shipto['Address'] = $addressTo;
-$shipto['Phone'] = $phone2;
-$shipment['ShipTo'] = $shipto;
+// Shipment
+$request->Shipment->Description = 'Ship WS test';
 
-$shipfrom['Name'] = 'T and T Designs';
-$shipfrom['AttentionName'] = '1160b_74';
-$addressFrom['AddressLine'] = '2311 York Rd';
-$addressFrom['City'] = 'Timonium';
-$addressFrom['StateProvinceCode'] = 'MD';
-$addressFrom['PostalCode'] = '21093';
-$addressFrom['CountryCode'] = 'US';
-$phone3['Number'] = '1234567890';
-$shipfrom['Address'] = $addressFrom;
-$shipfrom['Phone'] = $phone3;
-$shipment['ShipFrom'] = $shipfrom;
+// Shipper
+$request->Shipment->Shipper->Name = 'ShipperName';
+$request->Shipment->Shipper->AttentionName = 'ShipperZs Attn Name';
+$request->Shipment->Shipper->TaxIdentificationNumber = '123456';
+$request->Shipment->Shipper->ShipperNumber = '';
+$request->Shipment->Shipper->Address->AddressLine = '2311 York Rd';
+$request->Shipment->Shipper->Address->City = 'Timonium';
+$request->Shipment->Shipper->Address->StateProvinceCode = 'MD';
+$request->Shipment->Shipper->Address->PostalCode = '21093';
+$request->Shipment->Shipper->Address->CountryCode = 'US';
+$request->Shipment->Shipper->Phone->Number = '1115554758';
+$request->Shipment->Shipper->Phone->Extension = '1';
 
-$shipmentcharge['Type'] = '01';
-$creditcard['Type'] = '06';
-$creditcard['Number'] = '4716995287640625';
-$creditcard['SecurityCode'] = '864';
-$creditcard['ExpirationDate'] = '12/2013';
-$creditCardAddress['AddressLine'] = '2010 warsaw road';
-$creditCardAddress['City'] = 'Roswell';
-$creditCardAddress['StateProvinceCode'] = 'GA';
-$creditCardAddress['PostalCode'] = '30076';
-$creditCardAddress['CountryCode'] = 'US';
-$creditcard['Address'] = $creditCardAddress;
-$billshipper['CreditCard'] = $creditcard;
-$shipmentcharge['BillShipper'] = $billshipper;
-$paymentinformation['ShipmentCharge'] = $shipmentcharge;
-$shipment['PaymentInformation'] = $paymentinformation;
+// Ship To
 
-$service['Code'] = '03';
-$service['Description'] = 'Express';
-$shipment['Service'] = $service;
+$request->Shipment->ShipTo->Name = 'Happy Dog Pet Supply';
+$request->Shipment->ShipTo->AttentionName = '1160b_74';
+$request->Shipment->ShipTo->Address->AddressLine = '123 Main St';
+$request->Shipment->ShipTo->Address->City = 'Roswell';
+$request->Shipment->ShipTo->Address->StateProvinceCode = 'GA';
+$request->Shipment->ShipTo->Address->PostalCode = '30076';
+$request->Shipment->ShipTo->Address->CountryCode = 'US';
+$request->Shipment->ShipTo->Address->Phone->Number = '9225377171';
 
-$package['Description'] = '';
-$packaging['Code'] = '02';
-$packaging['Description'] = 'Nails';
-$package['Packaging'] = $packaging;
-$unit['Code'] = 'IN';
-$unit['Description'] = 'Inches';
-$dimensions['UnitOfMeasurement'] = $unit;
-$dimensions['Length'] = '7';
-$dimensions['Width'] = '5';
-$dimensions['Height'] = '2';
-$package['Dimensions'] = $dimensions;
-$unit2['Code'] = 'LBS';
-$unit2['Description'] = 'Pounds';
-$packageweight['UnitOfMeasurement'] = $unit2;
-$packageweight['Weight'] = '10';
-$package['PackageWeight'] = $packageweight;
-$shipment['Package'] = $package;
+// Ship From
+$request->Shipment->ShipFrom->Name = 'T and T Designs';
+$request->Shipment->ShipFrom->AttentionName = '1160b_74';
+$request->Shipment->ShipFrom->Address->AddressLine = '2311 York Rd';
+$request->Shipment->ShipFrom->Address->City = 'Timonium';
+$request->Shipment->ShipFrom->Address->StateProvinceCode = 'MD';
+$request->Shipment->ShipFrom->Address->PostalCode = '21093';
+$request->Shipment->ShipFrom->Address->CountryCode = 'US';
+$request->Shipment->ShipFrom->Phone->Number = '1234567890';
 
-$labelimageformat['Code'] = 'GIF';
-$labelimageformat['Description'] = 'GIF';
-$labelspecification['LabelImageFormat'] = $labelimageformat;
-$labelspecification['HTTPUserAgent'] = 'Mozilla/4.5';
-$request['LabelSpecification'] = $labelspecification;
-$request['Shipment'] = $shipment;
+// Payment information
+$request->Shipment->PaymentInformation->ShipmentCharge->Type = '01';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Type = '06';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Number = '4716995287640625';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->SecurityCode = '864';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->ExpirationDate = '12/2013';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Address->AddressLine = '2010 warsaw road';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Address->City = 'Roswell';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Address->StateProvinceCode = 'GA';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Address->PostalCode = '30076';
+$request->Shipment->PaymentInformation->ShipmentCharge->BillShipper
+    ->CreditCard->Address->CountryCode = 'US';
 
+// UPS service
+$request->Shipment->Service->Code = '03';
+$request->Shipment->Service->Description = 'Express';
 
+// Package
+$request->Shipment->Package->Description = '';
+$request->Shipment->Package->Packaging->Code = '02';
+$request->Shipment->Package->Packaging->Description = 'Nails';
 
+$request->Shipment->Package->Packaging->Dimensions->Length = '7';
+$request->Shipment->Package->Packaging->Dimensions->Width = '5';
+$request->Shipment->Package->Packaging->Dimensions->Height = '2';
+
+$request->Shipment->Package->Packaging->Dimensions->UnitOfMeasurement->Code = 'IN';
+$request->Shipment->Package->Packaging->Dimensions->UnitOfMeasurement->Description = 'Inches';
+
+$request->Shipment->Package->PackageWeight->Weight = '10';
+$request->Shipment->Package->PackageWeight->UnitOfMeasurement->Code = 'LBS';
+$request->Shipment->Package->PackageWeight->UnitOfMeasurement->Description = 'Pounds';
+
+$request->LabelSpecification->HTTPUserAgent = 'Mozilla/4.5';
+$request->LabelSpecification->LabelImageFormat->Code = 'GIF';
+$request->LabelSpecification->LabelImageFormat->Description = 'GIF';
 
 
 try {
