@@ -13,7 +13,7 @@ $mode = array
 );
 
 // initialize soap client
-$client = new SoapClient('Ship.wsdl', $mode);
+$client = new SoapClient('specification/Ship.wsdl', $mode);
 
 
 //create soap header
