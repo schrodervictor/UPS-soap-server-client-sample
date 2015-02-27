@@ -35,9 +35,21 @@ class UpsShipApiMock {
 
     }
 
+    protected function _validateHeader() {
+
+        // Authentication control is done in the header method.
+        if(!$this->_isAuthenticated) {
+            return false;
+        }
+
+    }
+
     public function ProcessShipment() {
 
-        if($this->_headerErrors) return $this->deliver();
+        if(!$this->_validateHeader() || $this->_headerErrors) {
+            // Header errors is set inside the UPSSecurity method and/or in _validateHeader
+            return $this->deliver();
+        }
 
         $baseResponse = array();
 
