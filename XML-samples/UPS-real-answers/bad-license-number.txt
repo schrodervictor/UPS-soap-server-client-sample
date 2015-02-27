@@ -1,0 +1,43 @@
+Dumping request headers:
+POST /webservices/Ship HTTP/1.1
+Host: wwwcie.ups.com
+Connection: Keep-Alive
+User-Agent: PHP-SOAP/5.5.9-1ubuntu4.5
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://onlinetools.ups.com/webservices/ShipBinding/v1.0"
+Content-Length: 3290
+
+
+Dumping request:
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.ups.com/XMLSchema/XOLTWS/Common/v1.0" xmlns:ns2="http://www.ups.com/XMLSchema/XOLTWS/Ship/v1.0" xmlns:ns3="http://www.ups.com/XMLSchema/X
+OLTWS/UPSS/v1.0"><SOAP-ENV:Header><ns3:UPSSecurity><ns3:UsernameToken><ns3:Username>test</ns3:Username><ns3:Password>test123</ns3:Password></ns3:UsernameToken><ns3:ServiceAccessToken><ns3:AccessLicenseNumber>123</ns3:AccessLicenseNumber>
+</ns3:ServiceAccessToken></ns3:UPSSecurity></SOAP-ENV:Header><SOAP-ENV:Body><ns2:ShipmentRequest><ns1:Request><ns1:RequestOption>nonvalidate</ns1:RequestOption></ns1:Request><ns2:Shipment><ns2:Description>Ship WS test</ns2:Description><n
+s2:Shipper><ns2:Name>ShipperName</ns2:Name><ns2:AttentionName>ShipperZs Attn Name</ns2:AttentionName><ns2:TaxIdentificationNumber>123456</ns2:TaxIdentificationNumber><ns2:Phone><ns2:Number>1115554758</ns2:Number><ns2:Extension>1</ns2:Ext
+ension></ns2:Phone><ns2:ShipperNumber></ns2:ShipperNumber><ns2:Address><ns2:AddressLine>2311 York Rd</ns2:AddressLine><ns2:City>Timonium</ns2:City><ns2:StateProvinceCode>MD</ns2:StateProvinceCode><ns2:PostalCode>21093</ns2:PostalCode><ns
+2:CountryCode>US</ns2:CountryCode></ns2:Address></ns2:Shipper><ns2:ShipTo><ns2:Name>Happy Dog Pet Supply</ns2:Name><ns2:AttentionName>1160b_74</ns2:AttentionName><ns2:Address><ns2:AddressLine>123 Main St</ns2:AddressLine><ns2:City>Roswel
+l</ns2:City><ns2:StateProvinceCode>GA</ns2:StateProvinceCode><ns2:PostalCode>30076</ns2:PostalCode><ns2:CountryCode>US</ns2:CountryCode></ns2:Address></ns2:ShipTo><ns2:ShipFrom><ns2:Name>T and T Designs</ns2:Name><ns2:AttentionName>1160b
+_74</ns2:AttentionName><ns2:Phone><ns2:Number>1234567890</ns2:Number></ns2:Phone><ns2:Address><ns2:AddressLine>2311 York Rd</ns2:AddressLine><ns2:City>Timonium</ns2:City><ns2:StateProvinceCode>MD</ns2:StateProvinceCode><ns2:PostalCode>21
+093</ns2:PostalCode><ns2:CountryCode>US</ns2:CountryCode></ns2:Address></ns2:ShipFrom><ns2:PaymentInformation><ns2:ShipmentCharge><ns2:Type>01</ns2:Type><ns2:BillShipper><ns2:CreditCard><ns2:Type>06</ns2:Type><ns2:Number>4716995287640625
+</ns2:Number><ns2:ExpirationDate>12/2013</ns2:ExpirationDate><ns2:SecurityCode>864</ns2:SecurityCode><ns2:Address><ns2:AddressLine>2010 warsaw road</ns2:AddressLine><ns2:City>Roswell</ns2:City><ns2:StateProvinceCode>GA</ns2:StateProvince
+Code><ns2:PostalCode>30076</ns2:PostalCode><ns2:CountryCode>US</ns2:CountryCode></ns2:Address></ns2:CreditCard></ns2:BillShipper></ns2:ShipmentCharge></ns2:PaymentInformation><ns2:Service><ns2:Code>03</ns2:Code><ns2:Description>Express</
+ns2:Description></ns2:Service><ns2:Package><ns2:Description></ns2:Description><ns2:Packaging><ns2:Code>02</ns2:Code><ns2:Description>Nails</ns2:Description></ns2:Packaging><ns2:PackageWeight><ns2:UnitOfMeasurement><ns2:Code>LBS</ns2:Code
+><ns2:Description>Pounds</ns2:Description></ns2:UnitOfMeasurement><ns2:Weight>10</ns2:Weight></ns2:PackageWeight></ns2:Package></ns2:Shipment><ns2:LabelSpecification><ns2:LabelImageFormat><ns2:Code>GIF</ns2:Code><ns2:Description>GIF</ns2
+:Description></ns2:LabelImageFormat><ns2:HTTPUserAgent>Mozilla/4.5</ns2:HTTPUserAgent></ns2:LabelSpecification></ns2:ShipmentRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+Dumping response headers:
+HTTP/1.1 200 OK
+Date: Thu, 26 Feb 2015 18:20:25 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+Pragma: no-cache
+Content-Length: 897
+Keep-Alive: timeout=65
+Connection: Keep-Alive
+Content-Type: text/xml; charset=UTF-8
+
+Dumping response:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><soapenv:Fault><faultcode>Client</faultcode><faultstring>An exception has been raised as a result of client data.</faultstring><de
+tail><err:Errors xmlns:err="http://www.ups.com/XMLSchema/XOLTWS/Error/v1.1"><err:ErrorDetail><err:Severity>Authentication</err:Severity><err:PrimaryErrorCode><err:Code>250003</err:Code><err:Description>Invalid Access License number</err:
+Description></err:PrimaryErrorCode><err:Location><err:LocationElementName>ns3:AccessLicenseNumber</err:LocationElementName><err:XPathOfElement>/SOAP-ENV:Envelope[1]/SOAP-ENV:Header[1]/ns3:UPSSecurity[1]/ns3:ServiceAccessToken[1]/ns3:Acce
+ssLicenseNumber[1]</err:XPathOfElement><err:OriginalValue>123</err:OriginalValue></err:Location></err:ErrorDetail></err:Errors></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
