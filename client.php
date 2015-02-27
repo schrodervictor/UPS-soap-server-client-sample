@@ -1,7 +1,4 @@
 <?php
-# HelloClient.php
-# Copyright (c) 2005 by Dr. Herong Yang
-#
 
 require_once 'client-config.php';
 
