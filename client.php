@@ -117,7 +117,7 @@ $request['LabelSpecification']['LabelImageFormat']['Code'] = 'GIF';
 $request['LabelSpecification']['LabelImageFormat']['Description'] = 'GIF';
 
 try {
-    $return = $client->ProcessShipment((array)$request);
+    $return = $client->ProcessShipment($request);
 } catch (Exception $e) {
 
 }
