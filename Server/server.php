@@ -26,7 +26,6 @@ class UpsShipApiMock {
             // Here I'm only simulating an error for the License Code
             $this->_headerErrors = 250003;
 
-
         }
 
     }
@@ -47,6 +46,8 @@ class UpsShipApiMock {
             return false;
         }
 
+        // If it passed through all previous conditions, the user is correctly authenticated
+        return true;
 
     }
 
