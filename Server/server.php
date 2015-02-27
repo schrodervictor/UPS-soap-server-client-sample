@@ -2,11 +2,15 @@
 // Basic class to mock the UPS API for shipments
 class UpsShipApiMock {
 
+    protected $_isHeaderPresent = false;
     protected $_isAuthenticated = false;
     protected $_headerErrors;
     protected $_response;
 
     public function UPSSecurity($header) {
+
+        // If this method is called, the UPSSecurity header is present
+        $this->_isHeaderPresent = true;
 
         // Authenticate against fake credentials
         if(
@@ -29,6 +33,13 @@ class UpsShipApiMock {
 
     protected function _validateHeader() {
 
+        // If this flag is false, the header method was never called
+        // and that means the header was not sent
+        if(!$this->_isHeaderPresent) {
+            $this->_headerErrors = 10002;
+            return false;
+        }
+
         // Authentication control is done in the header method.
         // If the user is not authenticated, the header method has already set
         // the appropriate header error.
@@ -41,7 +52,7 @@ class UpsShipApiMock {
 
     public function ProcessShipment() {
 
-        if(!$this->_validateHeader() || $this->_headerErrors) {
+        if(!$this->_validateHeader()) {
             // Header errors is set inside the UPSSecurity method and/or in _validateHeader
             return $this->deliverError($this->_headerErrors);
         }
@@ -72,6 +83,11 @@ class UpsShipApiMock {
         $errors[250003]['ErrorDetail']['Severity'] = 'Authentication';
         $errors[250003]['ErrorDetail']['PrimaryErrorCode']['Code'] = '250003';
         $errors[250003]['ErrorDetail']['PrimaryErrorCode']['Description'] = 'Invalid Access License number';
+
+        $errors[10002]['ErrorDetail']['Severity'] = 'Authentication';
+        $errors[10002]['ErrorDetail']['PrimaryErrorCode']['Code'] = '10002';
+        $errors[10002]['ErrorDetail']['PrimaryErrorCode']['Description'] = 'The XML document is well formed but the document is not valid';
+        $errors[10002]['ErrorDetail']['PrimaryErrorCode']['Digest'] = 'Authentication Header not provided.';
 
         return new SoapFault(
             'Client',
