@@ -15,9 +15,9 @@ class UpsShipApiMock {
         // Authenticate against fake credentials
         if(
             'test' === $header->UsernameToken->Username
-            ||
+            &&
             'test123' === $header->UsernameToken->Password
-            ||
+            &&
             '999' === $header->ServiceAccessToken->AccessLicenseNumber
           )
         {
