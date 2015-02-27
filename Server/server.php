@@ -6,10 +6,6 @@ class UpsShipApiMock {
     protected $_headerErrors;
     protected $_response;
 
-    public function hello() {
-        return "Hello";
-    }
-
     public function UPSSecurity($header) {
 
         // Authenticate against fake credentials
