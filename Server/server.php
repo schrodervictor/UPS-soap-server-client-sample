@@ -20,12 +20,8 @@ class UpsShipApiMock {
             $this->_isAuthenticated = true;
         } else {
             // Here I'm only simulating an error for the License Code
-            $error = array();
-            $error['ErrorDetail']['Severity'] = 'Authentication';
-            $error['ErrorDetail']['PrimaryErrorCode']['Code'] = '250003';
-            $error['ErrorDetail']['PrimaryErrorCode']['Description'] = 'Invalid Access License number';
+            $this->_headerErrors = 250003;
 
-            $this->_headerErrors = $error;
 
         }
 
@@ -34,9 +30,12 @@ class UpsShipApiMock {
     protected function _validateHeader() {
 
         // Authentication control is done in the header method.
+        // If the user is not authenticated, the header method has already set
+        // the appropriate header error.
         if(!$this->_isAuthenticated) {
             return false;
         }
+
 
     }
 
@@ -44,7 +43,7 @@ class UpsShipApiMock {
 
         if(!$this->_validateHeader() || $this->_headerErrors) {
             // Header errors is set inside the UPSSecurity method and/or in _validateHeader
-            return $this->deliver();
+            return $this->deliverError($this->_headerErrors);
         }
 
         $baseResponse = array();
@@ -62,18 +61,25 @@ class UpsShipApiMock {
 
     protected function deliver() {
 
-        if ($this->_errors) {
+        return $this->_response;
 
-            return new SoapFault(
-                'Client',
-                'An exception has been raised as a result of client data.',
-                null,
-                $this->_headerErrors,
-                'ShipmentError'
-            );
-        } else {
-            return $this->_response;
-        }
+    }
+
+    protected function deliverError($code) {
+
+        $errors = array();
+
+        $errors[250003]['ErrorDetail']['Severity'] = 'Authentication';
+        $errors[250003]['ErrorDetail']['PrimaryErrorCode']['Code'] = '250003';
+        $errors[250003]['ErrorDetail']['PrimaryErrorCode']['Description'] = 'Invalid Access License number';
+
+        return new SoapFault(
+            'Client',
+            'An exception has been raised as a result of client data.',
+            null,
+            $errors[$code],
+            'ShipmentError'
+        );
 
     }
 }
