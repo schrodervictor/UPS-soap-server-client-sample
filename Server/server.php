@@ -2,7 +2,8 @@
 // Basic class to mock the UPS API for shipments
 class UpsShipApiMock {
 
-    protected $_errors;
+    protected $_isAuthenticated = false;
+    protected $_headerErrors;
     protected $_response;
 
     public function hello() {
@@ -13,20 +14,22 @@ class UpsShipApiMock {
 
         // Authenticate against fake credentials
         if(
-            'test' !== $header->UsernameToken->Username
+            'test' === $header->UsernameToken->Username
             ||
-            'test123' !== $header->UsernameToken->Password
+            'test123' === $header->UsernameToken->Password
             ||
-            '999' !== $header->ServiceAccessToken->AccessLicenseNumber
+            '999' === $header->ServiceAccessToken->AccessLicenseNumber
           )
         {
+            $this->_isAuthenticated = true;
+        } else {
             // Here I'm only simulating an error for the License Code
             $error = array();
             $error['ErrorDetail']['Severity'] = 'Authentication';
             $error['ErrorDetail']['PrimaryErrorCode']['Code'] = '250003';
             $error['ErrorDetail']['PrimaryErrorCode']['Description'] = 'Invalid Access License number';
 
-            $this->_errors = $error;
+            $this->_headerErrors = $error;
 
         }
 
@@ -34,7 +37,7 @@ class UpsShipApiMock {
 
     public function ProcessShipment() {
 
-        if($this->_errors) return $this->deliver();
+        if($this->_headerErrors) return $this->deliver();
 
         $baseResponse = array();
 
@@ -57,7 +60,7 @@ class UpsShipApiMock {
                 'Client',
                 'An exception has been raised as a result of client data.',
                 null,
-                $this->_errors,
+                $this->_headerErrors,
                 'ShipmentError'
             );
         } else {
