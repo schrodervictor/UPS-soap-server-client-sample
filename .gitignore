@@ -1,0 +1,6 @@
+# Composer
+composer.lock
+vendor
+
+# User specific client configuration
+client-config.php
