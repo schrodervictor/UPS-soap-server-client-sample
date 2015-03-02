@@ -1,12 +1,10 @@
 <?php
-
 require_once 'UPSShipApiMock.php';
 
-// Create a new SOAP server
-$server = new SoapServer(__DIR__ . '/../specification/Ship.wsdl', array('soap_version' => SOAP_1_1));
+require_once 'UPSSoapServerMock.php';
 
-// Attach the API class to the SOAP Server
-$server->setClass('UPSShipApiMock');
+// Create a new UPS SOAP server
+$server = new UPSSoapServerMock();
 
 // Start the SOAP requests handler
 $server->handle();
