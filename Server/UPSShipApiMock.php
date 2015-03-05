@@ -91,6 +91,26 @@ class UPSShipApiMock {
         return $this->deliver();
     }
 
+    public function ProcessShipAccept($request) {
+
+        if(!$this->_validateHeader()) {
+            // Header errors is set inside the UPSSecurity method and/or in _validateHeader
+            return $this->deliverError($this->_headerErrors);
+        }
+
+        $baseResponse = array();
+
+        // Mandatory fields for a Response
+        $baseResponse['ShipmentResults']['BillingWeight']['UnitOfMeasurement']['Code'] = 42;
+        $baseResponse['ShipmentResults']['BillingWeight']['Weight'] = 'something';
+        $baseResponse['Response']['ResponseStatus']['Code'] = 42;
+        $baseResponse['Response']['ResponseStatus']['Description'] = 'Test';
+
+        $this->_response = $baseResponse;
+
+        return $this->deliver();
+    }
+
     protected function deliver() {
 
         return $this->_response;
