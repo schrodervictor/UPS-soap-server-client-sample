@@ -1,29 +1,12 @@
 <?php
 
 require_once 'client-config.php';
-
-$mode = array
-(
-    'soap_version' => SOAP_1_1,  // use soap 1.1 client
-    'trace' => 1,
-    'location' => UPS_MOCK_ENDPOINT,
-);
+require_once 'UPSSoapClient.php';
 
 // initialize soap client
-$client = new SoapClient('specification/Ship.wsdl', $mode);
+$client = new UPSSoapClient(null, array('location' => UPS_MOCK_ENDPOINT), true);
 
-
-// Create UPS SOAP security header
-$UPSSecurity = array();
-$UPSSecurity['UsernameToken']['Username'] = UPS_MOCK_USERNAME;
-$UPSSecurity['UsernameToken']['Password'] = UPS_MOCK_PASSWORD;
-$UPSSecurity['ServiceAccessToken']['AccessLicenseNumber'] = UPS_MOCK_ACCESS_LICENSE_NUMBER;
-
-$header = new SoapHeader('http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0',
-    'UPSSecurity', $UPSSecurity);
-
-$client->__setSoapHeaders($header);
-
+$client->setHeader();
 // Create a simple UPS SOAP request
 $request = array();
 
