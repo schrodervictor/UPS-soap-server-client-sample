@@ -14,6 +14,7 @@ $client = new SoapClient('specification/Ship.wsdl', $mode);
 
 
 // Create UPS SOAP security header
+
 $UPSSecurity = array();
 $UPSSecurity['UsernameToken']['Username'] = UPS_MOCK_USERNAME;
 $UPSSecurity['UsernameToken']['Password'] = UPS_MOCK_PASSWORD;

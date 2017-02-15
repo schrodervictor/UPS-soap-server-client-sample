@@ -51,7 +51,7 @@ class UpsShipApiMock {
 
     }
 
-    public function ProcessShipment() {
+    public function ProcessShipment($request) {
 
         if(!$this->_validateHeader()) {
             // Header errors is set inside the UPSSecurity method and/or in _validateHeader
